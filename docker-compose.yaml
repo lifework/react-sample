@@ -1,12 +1,22 @@
 version: '3.9'
+
+x-react: &react
+  build:
+    context: .
+    dockerfile: Dockerfile
+  volumes:
+    - ./src:/usr/src
+
 services:
   react-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./src:/usr/src
     command: sh -c "cd react-sample && npm start"
     ports:
       - "3000:3000"
     stdin_open: true 
+    tty: true
+    <<: *react
+
+  shell:
+    command: /bin/bash
+    tty: true
+    <<: *react
